@@ -1,1 +1,51 @@
-# price_csv
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+
+data = pd.read_csv('california_housing_test.csv')
+print(data.head())
+# Handling missing values
+data.fillna(data.mean(), inplace=True)
+
+# Encoding categorical variables
+data = pd.get_dummies(data)
+
+# Feature scaling
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+numerical_features = data.select_dtypes(include=['int64', 'float64']).columns
+data[numerical_features] = scaler.fit_transform(data[numerical_features])
+
+ #import seaborn as sns
+ #import matplotlib.pyplot as plt
+
+sns.pairplot(data[["longitude","latitude","median_income","total_rooms","total_bedrooms"]])
+plt.show()
+
+sns.pairplot(data[["population","households","housing_median_age","median_house_value"]])
+plt.show()
+
+from sklearn.model_selection import train_test_split
+
+X = data.drop(columns=['median_house_value'])
+y = data['median_house_value']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+#from sklearn.linear_model import LinearRegression
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+#from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+y_pred = model.predict(X_test)
+mae = mean_absolute_error(y_test, y_pred)
+mse = mean_squared_error(y_test, y_pred)
+print(f'MAE: {mae}')
+print(f'MSE: {mse}')
