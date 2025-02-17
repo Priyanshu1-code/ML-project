@@ -117,3 +117,44 @@ print(f'Classification Report:\n{report}')
 
 # # Load the model
 # model = joblib.load('iris_classification_model.pkl')
+
+SOME THING EXTRA
+# from sklearn.svm import SVC
+# from sklearn.model_selection import GridSearchCV
+
+# # Define parameter grid
+# param_grid = {
+#     'C': [0.1, 1, 10, 100],
+#     'gamma': [1, 0.1, 0.01, 0.001],
+#     'kernel': ['rbf', 'poly', 'sigmoid']
+# }
+
+# # Initialize Grid Search
+# grid_search = GridSearchCV(SVC(), param_grid, refit=True, verbose=2, cv=5)
+
+# # Perform Grid Search
+# grid_search.fit(X_train, y_train)
+
+# # Best parameters and best model
+# print("Best Parameters:", grid_search.best_params_)
+# print("Best Model:", grid_search.best_estimator_)
+
+# # Evaluate the best model
+# y_pred = grid_search.best_estimator_.predict(X_test)
+# accuracy = accuracy_score(y_test, y_pred)
+# report = classification_report(y_test, y_pred)
+# print(f'Accuracy: {accuracy}')
+# print(f'Classification Report:\n{report}')
+
+# import shap
+
+# # Use the best model from Grid Search
+# best_model = grid_search.best_estimator_
+
+# # Explain model predictions using SHAP
+# explainer = shap.KernelExplainer(best_model.predict, X_train)
+# shap_values = explainer.shap_values(X_test)
+
+# # Plot SHAP values
+# shap.summary_plot(shap_values, X_test, feature_names=X.columns)
+
